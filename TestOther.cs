@@ -6,7 +6,7 @@ namespace CodeAngel
 	/// <summary>
 	/// 
 	/// </summary>
-	public interface ITestInterface
+	public interface ITestInterfaceOther
 	{
 		string TestMethod(int id);
 	}
@@ -15,7 +15,7 @@ namespace CodeAngel
 	/// 
 	/// </summary>
 	/// <seealso cref="CodeAngel.ITestInterface" />
-	public class TestClass : ITestInterface
+	public class TestClassOther : ITestInterfaceOther
     {
 		/// <summary>
 		/// Gets the stuff.
@@ -51,7 +51,7 @@ namespace CodeAngel
 	/// <summary>
 	/// 
 	/// </summary>
-	public class TestProgramClass
+	public class TestProgramClassOther
     {
 		/// <summary>
 		/// Tests the main.

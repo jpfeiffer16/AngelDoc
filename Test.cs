@@ -3,30 +3,60 @@ using System.Collections.Generic;
 
 namespace CodeAngel
 {
-    class TestClass
+	public interface ITestInterface
+	{
+		string TestMethod(int id);
+	}
+
+	public class TestClass : ITestInterface
     {
-        public List<string> GetStuff(int id, string name)
+		public List<string> GetStuff(int id, string name)
         {
             return new List<string>();
         }
-        
-        private static void SetAThing()
+
+		private static void SetAThing()
         {
             //Do a thing
         }
+
+		public string TestMethod(int id)
+		{
+			return "123";
+		}
     }
 
-    class TestProgramClass
+	public class TestProgramClass
     {
-        static void TestMain(string[] args)
+		static void TestMain(string[] args)
         {
             Console.WriteLine("Hello World!");
         }
 
-        static string ParseText()
+		static string ParseText()
         {
             return ""; 
         }
 
+		public bool IsAThing()
+		{
+			return false;
+		}
+
+		public bool ShouldDoAThing()
+		{
+			return true;
+		}
+
+		public List<string> GetIdList(string name)
+		{
+			return new List<string>();
+		}
+
+		public bool ShouldEnableAThing { get; set; }
+
+		public bool ShouldEnableFeatureOne { get; }
+
+		public readonly int NumberField = 123;
     }
 }
