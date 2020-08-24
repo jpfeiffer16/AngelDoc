@@ -18,6 +18,14 @@ namespace CodeAngel
 	public class TestClassOther : ITestInterfaceOther
     {
 		/// <summary>
+		/// Initializes a new instance of the <see cref="TestClassOther"/> class.
+		/// </summary>
+		public TestClassOther()
+	    {
+
+	    }
+
+		/// <summary>
 		/// Gets the stuff.
 		/// </summary>
 		/// <param name="id">The identifier.</param>
