@@ -1,4 +1,4 @@
-﻿#define DEGUB
+﻿// #define DEGUB
 
 using System;
 using System.IO;
@@ -19,6 +19,7 @@ namespace CodeAngel
         {
             if (args.Length < 2)
             {
+                Console.WriteLine("Invalid Args");
                 Environment.Exit(1);
             }
             var inputFileName = args[0];
@@ -47,11 +48,8 @@ namespace CodeAngel
 
         private static void GenDoc(int lineNumber, string code)
         {
-            // var code = File.ReadAllText("./Test.cs");
             var tree = CSharpSyntaxTree.ParseText(code);
             var root = tree.GetCompilationUnitRoot();
-            // tree.GetLocation
-            // Microsoft.CodeAnalysis.CSharp.CSharpS
             var lineSpan = tree.GetText().Lines[lineNumber - 1].Span;
             var def = root.DescendantNodes()
                 // .OfType<MethodDeclarationSyntax>()
@@ -97,7 +95,6 @@ namespace CodeAngel
 #if DEBUG
                 File.AppendAllText("./log.txt", $"{str}\n");
 #endif
-
             }
 
         }
