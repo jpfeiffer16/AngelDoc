@@ -13,7 +13,7 @@
             "args": [
                 "./Test.cs",
                 "gendoccsharp",
-                "8"
+                "65"
             ],
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",

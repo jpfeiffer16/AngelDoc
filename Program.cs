@@ -1,20 +1,13 @@
-﻿// #define DEGUB
-
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.Generic;
-using Pluralize.NET;
-
 
 namespace CodeAngel
 {
     class Program
     {
-        private const string LOG_PATH = "./log.txt";
-
         static void Main(string[] args)
         {
             if (args.Length < 2)
@@ -48,71 +41,32 @@ namespace CodeAngel
 
         private static void GenDoc(int lineNumber, string code)
         {
+            IIdentifierHelper identifierHelper = new IdentifierHelper();
+            IDocumentationGenerator documentationGenerator = new DocumentionGenerator(identifierHelper);
+
             var tree = CSharpSyntaxTree.ParseText(code);
             var root = tree.GetCompilationUnitRoot();
             var lineSpan = tree.GetText().Lines[lineNumber - 1].Span;
             var def = root.DescendantNodes()
-                // .OfType<MethodDeclarationSyntax>()
-                .Where(n => 
+                .Where(n =>
                     n.FullSpan.Contains(lineSpan)).LastOrDefault();
 
+            var outString = string.Empty;
+
             if (def is MethodDeclarationSyntax methodDef)
-            {
-                var identifierList = ParseIdentifier(methodDef.Identifier.Value.ToString());
-                var pluralizer = new Pluralizer();
-                identifierList[0] = pluralizer.Pluralize(identifierList[0]);
-                identifierList[0] = identifierList[0][0].ToString().ToUpper() + identifierList[0].Substring(1);
-
-                var str = $@"
-/// <summary>
-/// {string.Join(" ", identifierList)}.
-/// </summary>";
-                
-                foreach (var param in methodDef.ParameterList.Parameters)
-                {
-                    var parameterIdentifierList = ParseIdentifier(param.Identifier.Value.ToString());
-                    str += $"\n/// <param name=\"{param.Identifier.Value}\">The {string.Join(" ", parameterIdentifierList)}.</param>";
-                }
-
-                Console.Write(str);
-#if DEBUG
-                File.AppendAllText("./log.txt", $"{str}\n");
-#endif
-            }
+                outString = documentationGenerator.GenerateMethodDocs(methodDef);
             else if (def is ClassDeclarationSyntax classDef)
-            {
-                var identifierList = ParseIdentifier(classDef.Identifier.Value.ToString());
-                var pluralizer = new Pluralizer();
-                // identifierList[0] = pluralizer.Pluralize(identifierList[0]);
-                identifierList[0] = identifierList[0][0].ToString().ToUpper() + identifierList[0].Substring(1);
+                outString = documentationGenerator.GenerateClassDocs(classDef);
+            else if (def is ConstructorDeclarationSyntax ctorDef)
+                outString = documentationGenerator.GenerateConstructorDocs(ctorDef);
+            else if (def is InterfaceDeclarationSyntax interfaceDef)
+                outString = documentationGenerator.GenerateInterfaceDocs(interfaceDef);
+            else if (def is PropertyDeclarationSyntax propertyDef)
+                outString = documentationGenerator.GeneratePropertyDocs(propertyDef);
+            else if (def is FieldDeclarationSyntax fieldDef)
+                outString = documentationGenerator.GenerateFieldDocs(fieldDef);
 
-                var str = $@"
-/// <summary>
-/// {string.Join(" ", identifierList)}.
-/// </summary>";
-                
-                Console.Write(str);
-#if DEBUG
-                File.AppendAllText("./log.txt", $"{str}\n");
-#endif
-            }
-
-        }
-
-        private static List<string> ParseIdentifier(string identifier)
-        {
-            var list = new List<string>();
-            for (var i = 0; i < identifier.Length; i++)
-            {
-                var ch = identifier[i];
-                if (char.IsUpper(ch) || i == 0)
-                {
-                    list.Add(string.Empty);
-                }
-                list[list.Count - 1] = list.LastOrDefault() + ch.ToString().ToLower();
-            }
-
-            return list;
+            Console.Write(outString);
         }
     }
 }

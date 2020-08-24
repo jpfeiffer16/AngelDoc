@@ -10,6 +10,11 @@ namespace CodeAngel
 
 	public class TestClass : ITestInterface
     {
+		public TestClass()
+	    {
+
+	    }
+
 		public List<string> GetStuff(int id, string name)
         {
             return new List<string>();
