@@ -17,6 +17,12 @@ namespace CodeAngel
 	/// <seealso cref="CodeAngel.ITestInterface" />
 	public class TestClassOther : ITestInterfaceOther
     {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TestClassOther"/> class.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <param name="name">The name.</param>
+		/// <param name="dateTime">The date time.</param>
 		public TestClassOther(int id, string name, DateTime dateTime)
 	    {
 
@@ -106,6 +112,12 @@ namespace CodeAngel
 			return new List<string>();
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether [access limit].
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if [access limit]; otherwise, <c>false</c>.
+		/// </value>
 		public bool AccessLimit { get; }
 
 		/// <summary>
