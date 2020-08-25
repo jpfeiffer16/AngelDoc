@@ -10,7 +10,7 @@ namespace CodeAngel
 
 	public class TestClass : ITestInterface
     {
-		public TestClass()
+		public TestClass(int id, string name, DateTime dateTime)
 	    {
 
 	    }

@@ -20,10 +20,14 @@ namespace CodeAngel
         private const string InheritDocTemplate = "/// <inheritdoc/>";
         private const string ValueTemplate = @"
 /// <value>
-/// 
+/// {0}
 /// </value>";
+        private const string SeeAlsoTemplate = @"
+/// <seealso cref=""{0}"" />";
 
-        // TODO: When we have constructor done, do this.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DocumentionGenerator"/> class.
+        /// </summary>
         public DocumentionGenerator(IIdentifierHelper identifierHelper)
         {
             _identifierHelper = identifierHelper;
@@ -38,6 +42,13 @@ namespace CodeAngel
 
             var docBuilder = new StringBuilder();
             docBuilder.AppendFormat(SummaryTemplate, string.Join(" ", identifierList));
+            if (classDeclaration.BaseList.Types.Count > 0)
+            {
+                foreach (var baseType in classDeclaration.BaseList.Types)
+                {
+                    docBuilder.AppendFormat(SeeAlsoTemplate, baseType.ToString());
+                }
+            }
 
             return docBuilder.ToString();
         }
@@ -93,6 +104,12 @@ namespace CodeAngel
                 SummaryTemplate, string.Format(
                     "Initializes a new instance of the {0} class",
                     string.Format(SeeTemplate, className)));
+            foreach (var param in ctorDeclaration.ParameterList.Parameters)
+            {
+                var parameterIdentifierList = _identifierHelper.ParseIdentifier(param.Identifier.Value.ToString());
+                docBuilder.AppendFormat(ParamTemplate, param.Identifier.Value, string.Join(" ", parameterIdentifierList));
+
+            }
 
             return docBuilder.ToString();
         }
