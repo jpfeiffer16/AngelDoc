@@ -56,9 +56,11 @@ namespace CodeAngel
 		public List<string> GetIdList(string name)
 		{
 			return new List<string>();
-		}
+        }
 
-		public bool ShouldEnableAThing { get; set; }
+        public bool AccessLimit { get; }
+
+        public bool ShouldEnableAThing { get; set; }
 
 		public bool ShouldEnableFeatureOne { get; }
 

@@ -119,8 +119,21 @@ namespace CodeAngel
         {
             // TODO: Need to fill this out more.
             var docBuilder = new StringBuilder();
-            docBuilder.AppendFormat(SummaryTemplate, string.Empty);
-            docBuilder.AppendFormat(ValueTemplate, string.Empty);
+            string accessorText = string.Empty;
+            if (propertyDeclaration.AccessorList.Accessors.Count == 2)
+                accessorText = "Gets or sets the ";
+            else if (propertyDeclaration.AccessorList.Accessors.FirstOrDefault()?.Keyword.Text == "get")
+                accessorText = "Gets the ";
+            else if (propertyDeclaration.AccessorList.Accessors.FirstOrDefault()?.Keyword.Text == "set")
+                accessorText = "Sets the ";
+            var identifierList = _identifierHelper.ParseIdentifier(propertyDeclaration.Identifier.Text);
+            var summaryText = accessorText + string.Join(" ", identifierList);
+            // identifierList[0] = identifierList[0][0].ToString().ToUpper()
+            //     + identifierList[0].Substring(1);
+            var valueText = "The " + string.Join(" ", identifierList);
+
+            docBuilder.AppendFormat(SummaryTemplate, summaryText);
+            docBuilder.AppendFormat(ValueTemplate, valueText);
 
             return docBuilder.ToString();
         }

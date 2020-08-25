@@ -17,10 +17,7 @@ namespace CodeAngel
 	/// <seealso cref="CodeAngel.ITestInterface" />
 	public class TestClassOther : ITestInterfaceOther
     {
-		/// <summary>
-		/// Initializes a new instance of the <see cref="TestClassOther"/> class.
-		/// </summary>
-		public TestClassOther()
+		public TestClassOther(int id, string name, DateTime dateTime)
 	    {
 
 	    }
@@ -108,6 +105,8 @@ namespace CodeAngel
 		{
 			return new List<string>();
 		}
+
+		public bool AccessLimit { get; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether [should enable a thing].
