@@ -17,13 +17,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
-    - name: Install dependencies
-      run: dotnet restore
     - name: Build Linux
-      run: dotnet publish -r linux-x64 --no-restore
+      run: dotnet publish -r linux-x64
     - name: Build Windows
-      run: dotnet publish -r win-x64 --no-restore
+      run: dotnet publish -r win-x64
     - name: Build OSX
-      run: dotnet publish -r osx-x64 --no-restore
+      run: dotnet publish -r osx-x64
     - name: Test
       run: dotnet test --no-restore --verbosity normal
