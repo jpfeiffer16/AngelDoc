@@ -25,3 +25,10 @@ jobs:
       run: dotnet publish -r osx-x64
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2.1.4
+      with:
+        # Artifact name
+        name: Linux Build
+        # A file, directory or wildcard pattern that describes what to upload
+        path: bin/Debug/netcoreapp3.1/linux-x64/
