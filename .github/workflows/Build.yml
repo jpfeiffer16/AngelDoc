@@ -24,7 +24,7 @@ jobs:
     - name: Build OSX
       run: dotnet publish -r osx-x64 ./AngelDoc/AngelDoc.csproj
     - name: Test
-      run: dotnet test --no-restore --verbosity normal ./AngelDoc/AngelDoc.Tests/AngelDoc.Tests.csproj
+      run: dotnet test --verbosity normal ./AngelDoc.Tests/AngelDoc.Tests.csproj
     - name: Upload Linux Build
       uses: actions/upload-artifact@v2.1.4
       with:
