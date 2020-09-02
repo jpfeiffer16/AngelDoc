@@ -18,31 +18,31 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: Build Linux
-      run: dotnet publish -r linux-x64
+      run: dotnet publish -r linux-x64 ./AngelDoc/AngelDoc.csproj
     - name: Build Windows
-      run: dotnet publish -r win-x64
+      run: dotnet publish -r win-x64 ./AngelDoc/AngelDoc.csproj
     - name: Build OSX
-      run: dotnet publish -r osx-x64
+      run: dotnet publish -r osx-x64 ./AngelDoc/AngelDoc.csproj
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test --no-restore --verbosity normal ./AngelDoc/AngelDoc.Tests/AngelDoc.Tests.csproj
     - name: Upload Linux Build
       uses: actions/upload-artifact@v2.1.4
       with:
         # Artifact name
         name: Linux Build
         # A file, directory or wildcard pattern that describes what to upload
-        path: bin/Debug/netcoreapp3.1/linux-x64/
+        path: AngelDoc/bin/Debug/netcoreapp3.1/linux-x64/
     - name: Upload OSX Build
       uses: actions/upload-artifact@v2.1.4
       with:
         # Artifact name
         name: OSX Build
         # A file, directory or wildcard pattern that describes what to upload
-        path: bin/Debug/netcoreapp3.1/osx-x64/
+        path: AngelDoc/bin/Debug/netcoreapp3.1/osx-x64/
     - name: Upload Windows Build
       uses: actions/upload-artifact@v2.1.4
       with:
         # Artifact name
         name: Windows Build
         # A file, directory or wildcard pattern that describes what to upload
-        path: bin/Debug/netcoreapp3.1/win-x64/
+        path: AngelDoc/bin/Debug/netcoreapp3.1/win-x64/
