@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CodeAngel
+namespace AngelDoc
 {
 	/// <summary>
 	/// 
@@ -14,7 +14,7 @@ namespace CodeAngel
 	/// <summary>
 	/// 
 	/// </summary>
-	/// <seealso cref="CodeAngel.ITestInterface" />
+	/// <seealso cref="AngelDoc.ITestInterface" />
 	public class TestClassOther : ITestInterfaceOther
     {
 		/// <summary>

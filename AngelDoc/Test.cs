@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CodeAngel
+namespace AngelDoc
 {
 	public interface ITestInterface
 	{
@@ -10,7 +10,7 @@ namespace CodeAngel
 
 	public class TestClass : ITestInterface
     {
-		public TestClass(int id, string name, DateTime dateTime)
+		public TestClass(int id, string name, DateTime dateTime, float stuff, double percentage, Guid externalId)
 	    {
 
 	    }

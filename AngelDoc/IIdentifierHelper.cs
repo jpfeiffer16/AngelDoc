@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CodeAngel
+namespace AngelDoc
 {
     public interface IIdentifierHelper
     {

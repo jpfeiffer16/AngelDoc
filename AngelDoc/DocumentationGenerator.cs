@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Pluralize.NET;
 
-namespace CodeAngel
+namespace AngelDoc
 {
     public class DocumentionGenerator : IDocumentationGenerator
     {
@@ -42,7 +42,7 @@ namespace CodeAngel
 
             var docBuilder = new StringBuilder();
             docBuilder.AppendFormat(SummaryTemplate, string.Join(" ", identifierList));
-            if (classDeclaration.BaseList.Types.Count > 0)
+            if (classDeclaration.BaseList?.Types.Count > 0)
             {
                 foreach (var baseType in classDeclaration.BaseList.Types)
                 {
@@ -70,11 +70,11 @@ namespace CodeAngel
         /// <inheritdoc/>
         public string GenerateMethodDocs(MethodDeclarationSyntax methodDeclaration)
         {
-            if (methodDeclaration.Parent is ClassDeclarationSyntax cd
-                    && cd.BaseList?.Types.Count > 0)
-            {
-                return InheritDocTemplate;
-            }
+            // if (methodDeclaration.Parent is ClassDeclarationSyntax cd
+            //         && cd.BaseList?.Types.Count > 0)
+            // {
+            //     return InheritDocTemplate;
+            // }
             var identifierList = _identifierHelper.ParseIdentifier(
                 methodDeclaration.Identifier.Value.ToString());
             var pluralizer = new Pluralizer();

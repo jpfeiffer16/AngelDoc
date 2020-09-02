@@ -1,6 +1,6 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace CodeAngel
+namespace AngelDoc
 {
     public interface IDocumentationGenerator
     {
