@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace AngelDoc.Tests.DocumentionGeneratorTests
 {
-    public class GenerateClassDocs
+    public class GenerateInterfaceDocs
     {
         private DocumentionGenerator _documentationGenerator;
         private string _result;
@@ -14,15 +14,16 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
         public void Setup()
         {
             var identifierHelper = Substitute.For<IIdentifierHelper>();
-            identifierHelper.ParseIdentifier("Test").Returns(new List<string> { "test" });
+            identifierHelper.ParseIdentifier("ITest").Returns(new List<string> { "i", "test" });
+
             _documentationGenerator = new DocumentionGenerator(identifierHelper);
 
-            var classDef = TestHelpers.GetSyntaxSymbol<ClassDeclarationSyntax>(
-@"class Test : ITest
+            var interfaceDef = TestHelpers.GetSyntaxSymbol<InterfaceDeclarationSyntax>(
+@"interface ITest : IBase
 {
 }");
 
-            _result = _documentationGenerator.GenerateClassDocs(classDef);
+            _result = _documentationGenerator.GenerateInterfaceDocs(interfaceDef);
         }
 
         [Test]
@@ -32,7 +33,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 @"/// <summary>
 /// Test.
 /// </summary>
-/// <seealso cref=""ITest"" />"));
+/// <seealso cref=""IBase"" />"));
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,8 +9,8 @@ namespace AngelDoc
     {
         private IIdentifierHelper _identifierHelper;
 
-        private const string SummaryTemplate = @"
-/// <summary>
+        private const string SummaryTemplate =
+@"/// <summary>
 /// {0}.
 /// </summary>";
         private const string ParamTemplate = @"
@@ -20,7 +19,7 @@ namespace AngelDoc
         private const string InheritDocTemplate = "/// <inheritdoc/>";
         private const string ValueTemplate = @"
 /// <value>
-/// {0}
+/// {0}.
 /// </value>";
         private const string SeeAlsoTemplate = @"
 /// <seealso cref=""{0}"" />";
@@ -63,6 +62,13 @@ namespace AngelDoc
 
             var docBuilder = new StringBuilder();
             docBuilder.AppendFormat(SummaryTemplate, string.Join(" ", identifierList));
+            if (interfaceDeclaration.BaseList?.Types.Count > 0)
+            {
+                foreach (var baseType in interfaceDeclaration.BaseList.Types)
+                {
+                    docBuilder.AppendFormat(SeeAlsoTemplate, baseType.ToString());
+                }
+            }
 
             return docBuilder.ToString();
         }
@@ -70,15 +76,13 @@ namespace AngelDoc
         /// <inheritdoc/>
         public string GenerateMethodDocs(MethodDeclarationSyntax methodDeclaration)
         {
-            // if (methodDeclaration.Parent is ClassDeclarationSyntax cd
-            //         && cd.BaseList?.Types.Count > 0)
-            // {
-            //     return InheritDocTemplate;
-            // }
             var identifierList = _identifierHelper.ParseIdentifier(
                 methodDeclaration.Identifier.Value.ToString());
-            var pluralizer = new Pluralizer();
-            identifierList[0] = pluralizer.Pluralize(identifierList[0]);
+            if (identifierList.Count > 1)
+            {
+                var pluralizer = new Pluralizer();
+                identifierList[0] = pluralizer.Pluralize(identifierList[0]);
+            }
             identifierList[0] = identifierList[0][0].ToString().ToUpper()
                 + identifierList[0].Substring(1);
 
@@ -128,8 +132,6 @@ namespace AngelDoc
                 accessorText = "Sets the ";
             var identifierList = _identifierHelper.ParseIdentifier(propertyDeclaration.Identifier.Text);
             var summaryText = accessorText + string.Join(" ", identifierList);
-            // identifierList[0] = identifierList[0][0].ToString().ToUpper()
-            //     + identifierList[0].Substring(1);
             var valueText = "The " + string.Join(" ", identifierList);
 
             docBuilder.AppendFormat(SummaryTemplate, summaryText);

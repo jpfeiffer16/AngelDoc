@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace AngelDoc.Tests.DocumentionGeneratorTests
 {
-    public class GenerateClassDocs
+    public class GenerateConstructorDocs
     {
         private DocumentionGenerator _documentationGenerator;
         private string _result;
@@ -15,14 +15,18 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
         {
             var identifierHelper = Substitute.For<IIdentifierHelper>();
             identifierHelper.ParseIdentifier("Test").Returns(new List<string> { "test" });
+            identifierHelper.ParseIdentifier("testAmount").Returns(new List<string> { "test", "amount" });
             _documentationGenerator = new DocumentionGenerator(identifierHelper);
 
-            var classDef = TestHelpers.GetSyntaxSymbol<ClassDeclarationSyntax>(
-@"class Test : ITest
+            var ctorDef = TestHelpers.GetSyntaxSymbol<ConstructorDeclarationSyntax>(
+@"class Test
 {
-}");
+    public Test(double testAmount)
+    {
+    }
+}", 2);
 
-            _result = _documentationGenerator.GenerateClassDocs(classDef);
+            _result = _documentationGenerator.GenerateConstructorDocs(ctorDef);
         }
 
         [Test]
@@ -30,9 +34,9 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
         {
             Assert.That(_result, Is.EqualTo(
 @"/// <summary>
-/// Test.
+/// Initializes a new instance of the <see cref=""Test""/> class.
 /// </summary>
-/// <seealso cref=""ITest"" />"));
+/// <param name=""testAmount"">The test amount.</param>"));
         }
     }
 }
