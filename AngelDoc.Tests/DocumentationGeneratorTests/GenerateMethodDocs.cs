@@ -7,7 +7,6 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 {
     public class GenerateMethodDocs
     {
-        private DocumentionGenerator _documentationGenerator;
         private string _pluralResult;
         private string _singularResult;
 
@@ -33,7 +32,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
                 .ParseIdentifier("args")
                 .Returns(new List<string> { "args" });
 
-            _documentationGenerator = new DocumentionGenerator(identifierHelper);
+            var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
             var pluralMethodDef = TestHelpers.GetSyntaxSymbol<MethodDeclarationSyntax>(
 @"public class TestClass
@@ -51,8 +50,8 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
     }
 }", 2);
 
-            _pluralResult = _documentationGenerator.GenerateMethodDocs(pluralMethodDef);
-            _singularResult = _documentationGenerator.GenerateMethodDocs(singularMethodDef);
+            _pluralResult = documentationGenerator.GenerateMethodDocs(pluralMethodDef);
+            _singularResult = documentationGenerator.GenerateMethodDocs(singularMethodDef);
         }
 
         [Test]

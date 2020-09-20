@@ -13,7 +13,6 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
     public string LastName { set; }
     public string FullName { get; }
 }";
-        private DocumentionGenerator _documentationGenerator;
         private string _getSetResult;
         private string _setResult;
         private string _getResult;
@@ -32,15 +31,15 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
                 .ParseIdentifier("FullName")
                 .Returns(new List<string> { "full", "name" });
 
-            _documentationGenerator = new DocumentionGenerator(identifierHelper);
+            var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
             var getSetPropertyDef = TestHelpers.GetSyntaxSymbol<PropertyDeclarationSyntax>(Code, 2);
             var setProperytDef = TestHelpers.GetSyntaxSymbol<PropertyDeclarationSyntax>(Code, 3);
             var getProperytDef = TestHelpers.GetSyntaxSymbol<PropertyDeclarationSyntax>(Code, 4);
 
-            _getSetResult = _documentationGenerator.GeneratePropertyDocs(getSetPropertyDef);
-            _setResult = _documentationGenerator.GeneratePropertyDocs(setProperytDef);
-            _getResult = _documentationGenerator.GeneratePropertyDocs(getProperytDef);
+            _getSetResult = documentationGenerator.GeneratePropertyDocs(getSetPropertyDef);
+            _setResult = documentationGenerator.GeneratePropertyDocs(setProperytDef);
+            _getResult = documentationGenerator.GeneratePropertyDocs(getProperytDef);
         }
 
         [Test]

@@ -7,7 +7,6 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 {
     public class GenerateConstructorDocs
     {
-        private DocumentionGenerator _documentationGenerator;
         private string _result;
 
         [SetUp]
@@ -16,7 +15,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
             var identifierHelper = Substitute.For<IIdentifierHelper>();
             identifierHelper.ParseIdentifier("Test").Returns(new List<string> { "test" });
             identifierHelper.ParseIdentifier("testAmount").Returns(new List<string> { "test", "amount" });
-            _documentationGenerator = new DocumentionGenerator(identifierHelper);
+            var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
             var ctorDef = TestHelpers.GetSyntaxSymbol<ConstructorDeclarationSyntax>(
 @"class Test
@@ -26,7 +25,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
     }
 }", 2);
 
-            _result = _documentationGenerator.GenerateConstructorDocs(ctorDef);
+            _result = documentationGenerator.GenerateConstructorDocs(ctorDef);
         }
 
         [Test]

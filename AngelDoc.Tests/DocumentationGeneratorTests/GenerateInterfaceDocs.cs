@@ -7,7 +7,6 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 {
     public class GenerateInterfaceDocs
     {
-        private DocumentionGenerator _documentationGenerator;
         private string _result;
 
         [SetUp]
@@ -16,14 +15,14 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
             var identifierHelper = Substitute.For<IIdentifierHelper>();
             identifierHelper.ParseIdentifier("ITest").Returns(new List<string> { "i", "test" });
 
-            _documentationGenerator = new DocumentionGenerator(identifierHelper);
+            var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
             var interfaceDef = TestHelpers.GetSyntaxSymbol<InterfaceDeclarationSyntax>(
 @"interface ITest : IBase
 {
 }");
 
-            _result = _documentationGenerator.GenerateInterfaceDocs(interfaceDef);
+            _result = documentationGenerator.GenerateInterfaceDocs(interfaceDef);
         }
 
         [Test]
