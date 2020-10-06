@@ -79,4 +79,7 @@ namespace AngelDoc
             return default(TThing);
         }
     }
+
+    public interface ITestGenericInterface<T>
+    { }
 }

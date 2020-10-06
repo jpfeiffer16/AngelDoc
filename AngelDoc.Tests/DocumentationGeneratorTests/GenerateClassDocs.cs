@@ -14,10 +14,11 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
         {
             var identifierHelper = Substitute.For<IIdentifierHelper>();
             identifierHelper.ParseIdentifier("Test").Returns(new List<string> { "test" });
+            identifierHelper.ParseIdentifier("T").Returns(new List<string> { "t" });
             var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
             var classDef = TestHelpers.GetSyntaxSymbol<ClassDeclarationSyntax>(
-@"class Test : ITest
+@"class Test<T> : ITest
 {
 }");
 
@@ -31,7 +32,8 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 @"/// <summary>
 /// Test.
 /// </summary>
-/// <seealso cref=""ITest"" />"));
+/// <seealso cref=""ITest"" />
+/// <typeparam name=""T""></typeparam>"));
         }
     }
 }

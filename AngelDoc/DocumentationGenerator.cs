@@ -24,7 +24,7 @@ namespace AngelDoc
         private const string SeeAlsoTemplate = @"
 /// <seealso cref=""{0}"" />";
         private const string TypeParamTemplate = @"
-/// <typeparam name=""{0}"" >{1}</typeparam>";
+/// <typeparam name=""{0}"">{1}</typeparam>";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentionGenerator"/> class.

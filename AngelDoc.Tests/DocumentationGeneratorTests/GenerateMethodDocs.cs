@@ -31,13 +31,16 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
             identifierHelper
                 .ParseIdentifier("args")
                 .Returns(new List<string> { "args" });
+            identifierHelper
+                .ParseIdentifier("TStuff")
+                .Returns(new List<string> { "t", "stuff" });
 
             var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
             var pluralMethodDef = TestHelpers.GetSyntaxSymbol<MethodDeclarationSyntax>(
 @"public class TestClass
 {
-    public void GetSomething(int id, string name)
+    public void GetSomething<TStuff>(int id, string name)
     {
     }
 }", 2);
@@ -62,7 +65,8 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 /// Gets something.
 /// </summary>
 /// <param name=""id"">The id.</param>
-/// <param name=""name"">The name.</param>"));
+/// <param name=""name"">The name.</param>
+/// <typeparam name=""TStuff"">The stuff type.</typeparam>"));
         }
 
         [Test]

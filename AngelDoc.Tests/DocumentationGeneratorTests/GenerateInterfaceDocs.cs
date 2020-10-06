@@ -14,11 +14,12 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
         {
             var identifierHelper = Substitute.For<IIdentifierHelper>();
             identifierHelper.ParseIdentifier("ITest").Returns(new List<string> { "i", "test" });
+            identifierHelper.ParseIdentifier("T").Returns(new List<string> { "t" });
 
             var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
             var interfaceDef = TestHelpers.GetSyntaxSymbol<InterfaceDeclarationSyntax>(
-@"interface ITest : IBase
+@"interface ITest<T> : IBase
 {
 }");
 
@@ -32,7 +33,8 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 @"/// <summary>
 /// Test.
 /// </summary>
-/// <seealso cref=""IBase"" />"));
+/// <seealso cref=""IBase"" />
+/// <typeparam name=""T""></typeparam>"));
         }
     }
 }
