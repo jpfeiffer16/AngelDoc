@@ -23,6 +23,8 @@ namespace AngelDoc
 /// </value>";
         private const string SeeAlsoTemplate = @"
 /// <seealso cref=""{0}"" />";
+        private const string TypeParamTemplate = @"
+/// <typeparam name=""{0}"" >{1}</typeparam>";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentionGenerator"/> class.
@@ -49,6 +51,8 @@ namespace AngelDoc
                 }
             }
 
+            GenerateTypeParams(classDeclaration.TypeParameterList, docBuilder);
+
             return docBuilder.ToString();
         }
 
@@ -69,6 +73,8 @@ namespace AngelDoc
                     docBuilder.AppendFormat(SeeAlsoTemplate, baseType.ToString());
                 }
             }
+
+            GenerateTypeParams(interfaceDeclaration.TypeParameterList, docBuilder);
 
             return docBuilder.ToString();
         }
@@ -94,6 +100,8 @@ namespace AngelDoc
                 var parameterIdentifierList = _identifierHelper.ParseIdentifier(param.Identifier.Value.ToString());
                 docBuilder.AppendFormat(ParamTemplate, param.Identifier.Value, string.Join(" ", parameterIdentifierList));
             }
+
+            GenerateTypeParams(methodDeclaration.TypeParameterList, docBuilder);
 
             return docBuilder.ToString();
         }
@@ -152,5 +160,30 @@ namespace AngelDoc
 
             return docBuilder.ToString();
         }
+
+        #region Helper Methods
+
+        private void GenerateTypeParams(TypeParameterListSyntax typeParamList, StringBuilder docBuilder)
+        {
+            if (typeParamList?.Parameters.Count > 0)
+            {
+                foreach (var typeParam in typeParamList.Parameters)
+                {
+                    var description = string.Empty;
+                    var typeParamIdentifiers = _identifierHelper.ParseIdentifier(typeParam.Identifier.ToString());
+                    if (typeParamIdentifiers.Count > 1)
+                    {
+                        if (typeParamIdentifiers.FirstOrDefault() == "t")
+                        {
+                            typeParamIdentifiers = typeParamIdentifiers.Skip(1).ToList();
+                        }
+                        description = $"The {string.Join(" ", typeParamIdentifiers)} type.";
+                    }
+                    docBuilder.AppendFormat(TypeParamTemplate, typeParam.Identifier.ToString(), description);
+                }
+            }
+        }
+
+        #endregion
     }
 }
