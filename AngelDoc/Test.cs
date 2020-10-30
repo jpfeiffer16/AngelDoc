@@ -32,7 +32,7 @@ namespace AngelDoc
             return "123";
         }
 
-        public void Dispose(bool validateResources)
+        public void Dispose()
         {
             throw new NotImplementedException();
         }
