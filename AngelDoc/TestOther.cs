@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AngelDoc
 {
@@ -15,6 +16,7 @@ namespace AngelDoc
 	/// 
 	/// </summary>
 	/// <seealso cref="AngelDoc.ITestInterface" />
+    [ExcludeFromCodeCoverage]
 	public class TestClassOther : ITestInterfaceOther
     {
 		/// <summary>
@@ -62,6 +64,7 @@ namespace AngelDoc
 	/// <summary>
 	/// 
 	/// </summary>
+    [ExcludeFromCodeCoverage]
 	public class TestProgramClassOther
     {
 		/// <summary>

@@ -82,18 +82,29 @@ namespace AngelDoc
         /// <inheritdoc/>
         public string GenerateMethodDocs(MethodDeclarationSyntax methodDeclaration)
         {
-            var identifierList = _identifierHelper.ParseIdentifier(
-                methodDeclaration.Identifier.Value.ToString());
-            if (identifierList.Count > 1)
-            {
-                var pluralizer = new Pluralizer();
-                identifierList[0] = pluralizer.Pluralize(identifierList[0]);
-            }
-            identifierList[0] = identifierList[0][0].ToString().ToUpper()
-                + identifierList[0].Substring(1);
-
+            var methodName = methodDeclaration.Identifier.Value.ToString();
             var docBuilder = new StringBuilder();
-            docBuilder.AppendFormat(SummaryTemplate, string.Join(" ", identifierList));
+            // Special cases
+            if (methodName == "Dispose")
+            {
+                docBuilder.AppendFormat(
+                    SummaryTemplate,
+                    string.Format("Disposes the {0} instance and its resources",
+                        string.Format(SeeTemplate, (methodDeclaration.Parent as ClassDeclarationSyntax)?.Identifier.Text)));
+            }
+            else
+            {
+                var identifierList = _identifierHelper.ParseIdentifier(methodName);
+                if (identifierList.Count > 1)
+                {
+                    var pluralizer = new Pluralizer();
+                    identifierList[0] = pluralizer.Pluralize(identifierList[0]);
+                }
+                identifierList[0] = identifierList[0][0].ToString().ToUpper()
+                    + identifierList[0].Substring(1);
+
+                docBuilder.AppendFormat(SummaryTemplate, string.Join(" ", identifierList));
+            }
 
             foreach (var param in methodDeclaration.ParameterList.Parameters)
             {

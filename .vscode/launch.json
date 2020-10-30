@@ -9,13 +9,13 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/CodeAngel.dll",
+            "program": "${workspaceFolder}/AngelDoc/bin/Debug/netcoreapp3.1/AngelDoc.dll",
             "args": [
                 "./Test.cs",
                 "gendoccsharp",
-                "61"
+                "35"
             ],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/AngelDoc",
             "console": "internalConsole",
             "stopAtEntry": false
         },

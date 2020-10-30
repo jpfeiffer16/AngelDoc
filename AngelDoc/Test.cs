@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AngelDoc
 {
@@ -8,7 +9,8 @@ namespace AngelDoc
         string TestMethod(int id);
     }
 
-    public class TestClass : ITestInterface
+    [ExcludeFromCodeCoverage]
+    public class TestClass : IDisposable, ITestInterface
     {
         public TestClass(int id, string name, DateTime dateTime, float stuff, double percentage, Guid externalId)
         {
@@ -29,8 +31,14 @@ namespace AngelDoc
         {
             return "123";
         }
+
+        public void Dispose(bool validateResources)
+        {
+            throw new NotImplementedException();
+        }
     }
 
+    [ExcludeFromCodeCoverage]
     public class TestProgramClass<T>
     {
         static void TestMain(string[] args)
@@ -72,6 +80,7 @@ namespace AngelDoc
         public readonly int NumberField = 123;
     }
 
+    [ExcludeFromCodeCoverage]
     public class GenericClass<TStuff>
     {
         public TThing GetTStuff<TThing>(int id)

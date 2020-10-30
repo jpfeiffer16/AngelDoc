@@ -9,6 +9,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
     {
         private string _pluralResult;
         private string _singularResult;
+        private string _disposeResult;
 
         [SetUp]
         public void Setup()
@@ -34,6 +35,9 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
             identifierHelper
                 .ParseIdentifier("TStuff")
                 .Returns(new List<string> { "t", "stuff" });
+            identifierHelper
+                .ParseIdentifier("parameter")
+                .Returns(new List<string> { "parameter" });
 
             var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
@@ -53,8 +57,17 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
     }
 }", 2);
 
+
+            var disposeMethodDef = TestHelpers.GetSyntaxSymbol<MethodDeclarationSyntax>(
+@"public class TestClass : IDisposable
+{
+    public void Dispose(string parameter)
+    {
+    }
+}", 2);
             _pluralResult = documentationGenerator.GenerateMethodDocs(pluralMethodDef);
             _singularResult = documentationGenerator.GenerateMethodDocs(singularMethodDef);
+            _disposeResult = documentationGenerator.GenerateMethodDocs(disposeMethodDef);
         }
 
         [Test]
@@ -77,6 +90,16 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 /// Main.
 /// </summary>
 /// <param name=""args"">The args.</param>"));
+        }
+
+        [Test]
+        public void DisposeResultIsCorrect()
+        {
+            Assert.That(_disposeResult, Is.EqualTo(
+@"/// <summary>
+/// Disposes the <see cref=""TestClass""/> instance and its resources.
+/// </summary>
+/// <param name=""parameter"">The parameter.</param>"));
         }
     }
 }
