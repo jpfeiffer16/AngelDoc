@@ -80,6 +80,26 @@ namespace AngelDoc
         public readonly int NumberField = 123;
     }
 
+    public enum TestEnum
+    {
+        ONE = 1,
+        TWO = 2
+    }
+
+    public struct TestStruct
+    {
+        public string Name { get; }
+
+        public TestStruct(int id, string name)
+        {
+            Name = name ?? throw new NotImplementedException();
+        }
+
+        public void Stuff(int id)
+        {
+        }
+    }
+
     [ExcludeFromCodeCoverage]
     public class GenericClass<TStuff>
     {
