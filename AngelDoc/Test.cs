@@ -86,10 +86,16 @@ namespace AngelDoc
         TWO = 2
     }
 
+    [ExcludeFromCodeCoverage]
     public struct TestStruct
     {
         public string Name { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestStruct"/> struct.
+        /// </summary>
+        /// <param name="id">The id.</param>
+        /// <param name="name">The name.</param>
         public TestStruct(int id, string name)
         {
             Name = name ?? throw new NotImplementedException();

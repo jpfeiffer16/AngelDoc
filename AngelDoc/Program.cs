@@ -53,18 +53,33 @@ namespace AngelDoc
 
             var outString = string.Empty;
 
-            if (def is MethodDeclarationSyntax methodDef)
-                outString = documentationGenerator.GenerateMethodDocs(methodDef);
-            else if (def is ClassDeclarationSyntax classDef)
-                outString = documentationGenerator.GenerateClassDocs(classDef);
-            else if (def is ConstructorDeclarationSyntax ctorDef)
-                outString = documentationGenerator.GenerateConstructorDocs(ctorDef);
-            else if (def is InterfaceDeclarationSyntax interfaceDef)
-                outString = documentationGenerator.GenerateInterfaceDocs(interfaceDef);
-            else if (def is PropertyDeclarationSyntax propertyDef)
-                outString = documentationGenerator.GeneratePropertyDocs(propertyDef);
-            else if (def is FieldDeclarationSyntax fieldDef)
-                outString = documentationGenerator.GenerateFieldDocs(fieldDef);
+            switch (def)
+            {
+                case MethodDeclarationSyntax methodDef:
+                    outString = documentationGenerator.GenerateMethodDocs(methodDef);
+                    break;
+                case ClassDeclarationSyntax classDef:
+                    outString = documentationGenerator.GenerateClassDocs(classDef);
+                    break;
+                case ConstructorDeclarationSyntax ctorDef:
+                    outString = documentationGenerator.GenerateConstructorDocs(ctorDef);
+                    break;
+                case InterfaceDeclarationSyntax interfaceDef:
+                    outString = documentationGenerator.GenerateInterfaceDocs(interfaceDef);
+                    break;
+                case PropertyDeclarationSyntax propertyDef:
+                    outString = documentationGenerator.GeneratePropertyDocs(propertyDef);
+                    break;
+                case FieldDeclarationSyntax fieldDef:
+                    outString = documentationGenerator.GenerateFieldDocs(fieldDef);
+                    break;
+                case EnumDeclarationSyntax enumDef:
+                    outString = documentationGenerator.GenerateEnumDocs(enumDef);
+                    break;
+                case StructDeclarationSyntax structDef:
+                    outString = documentationGenerator.GenerateStructDocs(structDef);
+                    break;
+            }
 
             Console.Write(outString);
         }

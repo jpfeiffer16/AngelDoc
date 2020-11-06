@@ -144,72 +144,73 @@ namespace AngelDoc
         /// </summary>
         public readonly int NumberField = 123;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public enum TestEnum
+        /// <summary>
+        /// 
+        /// </summary>
+        public enum TestEnum
         {
             ONE = 1,
             TWO = 2
         }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public struct TestStruct
+        /// <summary>
+        /// 
+        /// </summary>
+        [ExcludeFromCodeCoverage]
+        public struct TestStruct
         {
-			/// <summary>
-			/// Gets the name.
-			/// </summary>
-			/// <value>
-			/// The name.
-			/// </value>
-			public string Name { get; }
+            /// <summary>
+            /// Gets the name.
+            /// </summary>
+            /// <value>
+            /// The name.
+            /// </value>
+            public string Name { get; }
 
-			/// <summary>
-			/// Initializes a new instance of the <see cref="TestStruct"/> struct.
-			/// </summary>
-			/// <param name="id">The identifier.</param>
-			/// <param name="name">The name.</param>
-			/// <exception cref="NotImplementedException"></exception>
-			public TestStruct(int id, string name)
+            /// <summary>
+            /// Initializes a new instance of the <see cref="TestStruct"/> struct.
+            /// </summary>
+            /// <param name="id">The identifier.</param>
+            /// <param name="name">The name.</param>
+            /// <exception cref="NotImplementedException"></exception>
+            public TestStruct(int id, string name)
             {
                 Name = name ?? throw new NotImplementedException();
             }
 
-			/// <summary>
-			/// Stuffs the specified identifier.
-			/// </summary>
-			/// <param name="id">The identifier.</param>
-			public void Stuff(int id)
+            /// <summary>
+            /// Stuffs the specified identifier.
+            /// </summary>
+            /// <param name="id">The identifier.</param>
+            public void Stuff(int id)
             {
             }
         }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <typeparam name="TStuff">The type of the stuff.</typeparam>
-		[ExcludeFromCodeCoverage]
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TStuff">The type of the stuff.</typeparam>
+        [ExcludeFromCodeCoverage]
         public class GenericClass<TStuff>
         {
-			/// <summary>
-			/// Gets the t stuff.
-			/// </summary>
-			/// <typeparam name="TThing">The type of the thing.</typeparam>
-			/// <param name="id">The identifier.</param>
-			/// <returns></returns>
-			public TThing GetTStuff<TThing>(int id)
+            /// <summary>
+            /// Gets the t stuff.
+            /// </summary>
+            /// <typeparam name="TThing">The type of the thing.</typeparam>
+            /// <param name="id">The identifier.</param>
+            /// <returns></returns>
+            public TThing GetTStuff<TThing>(int id)
             {
                 return default(TThing);
             }
         }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		public interface ITestGenericInterface<T>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public interface ITestGenericInterface<T>
         { }
     }
 }

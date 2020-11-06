@@ -7,7 +7,8 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 {
     public class GenerateConstructorDocs
     {
-        private string _result;
+        private string _classResult;
+        private string _structResult;
 
         [SetUp]
         public void Setup()
@@ -17,7 +18,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
             identifierHelper.ParseIdentifier("testAmount").Returns(new List<string> { "test", "amount" });
             var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
-            var ctorDef = TestHelpers.GetSyntaxSymbol<ConstructorDeclarationSyntax>(
+            var ctorDefClass = TestHelpers.GetSyntaxSymbol<ConstructorDeclarationSyntax>(
 @"class Test
 {
     public Test(double testAmount)
@@ -25,15 +26,34 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
     }
 }", 2);
 
-            _result = documentationGenerator.GenerateConstructorDocs(ctorDef);
+            var ctorDefStruct = TestHelpers.GetSyntaxSymbol<ConstructorDeclarationSyntax>(
+@"struct Test
+{
+    public Test(double testAmount)
+    {
+    }
+}", 2);
+
+            _classResult = documentationGenerator.GenerateConstructorDocs(ctorDefClass);
+            _structResult = documentationGenerator.GenerateConstructorDocs(ctorDefStruct);
         }
 
         [Test]
-        public void ResultIsCorrect()
+        public void ClassResultIsCorrect()
         {
-            Assert.That(_result, Is.EqualTo(
+            Assert.That(_classResult, Is.EqualTo(
 @"/// <summary>
 /// Initializes a new instance of the <see cref=""Test""/> class.
+/// </summary>
+/// <param name=""testAmount"">The test amount.</param>"));
+        }
+
+        [Test]
+        public void StructResultIsCorrect()
+        {
+            Assert.That(_structResult, Is.EqualTo(
+@"/// <summary>
+/// Initializes a new instance of the <see cref=""Test""/> struct.
 /// </summary>
 /// <param name=""testAmount"">The test amount.</param>"));
         }

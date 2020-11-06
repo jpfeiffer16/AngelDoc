@@ -15,7 +15,7 @@ namespace AngelDoc
 /// </summary>";
         private const string ParamTemplate = @"
 /// <param name=""{0}"">The {1}.</param>";
-        private const string SeeTemplate = "<see cref=\"{0}\"/>"; 
+        private const string SeeTemplate = "<see cref=\"{0}\"/>";
         private const string InheritDocTemplate = "/// <inheritdoc/>";
         private const string ValueTemplate = @"
 /// <value>
@@ -125,8 +125,8 @@ namespace AngelDoc
             var docBuilder = new StringBuilder();
             docBuilder.AppendFormat(
                 SummaryTemplate, string.Format(
-                    "Initializes a new instance of the {0} class",
-                    string.Format(SeeTemplate, className)));
+                    "Initializes a new instance of the {0} {1}",
+                    string.Format(SeeTemplate, className), ctorDeclaration.Parent is ClassDeclarationSyntax ? "class" : "struct"));
             foreach (var param in ctorDeclaration.ParameterList.Parameters)
             {
                 var parameterIdentifierList = _identifierHelper.ParseIdentifier(param.Identifier.Value.ToString());
@@ -168,6 +168,48 @@ namespace AngelDoc
 
             var docBuilder = new StringBuilder();
             docBuilder.AppendFormat(SummaryTemplate, string.Join(" ", identifierList));
+
+            return docBuilder.ToString();
+        }
+
+        /// <inheritdoc />
+        public string GenerateEnumDocs(EnumDeclarationSyntax enumDeclaration)
+        {
+            var identifierList = _identifierHelper.ParseIdentifier(enumDeclaration.Identifier.Value.ToString());
+            var pluralizer = new Pluralizer();
+            identifierList[0] = identifierList[0][0].ToString().ToUpper() + identifierList[0].Substring(1);
+
+            var docBuilder = new StringBuilder();
+            docBuilder.AppendFormat(SummaryTemplate, string.Join(" ", identifierList));
+            if (enumDeclaration.BaseList?.Types.Count > 0)
+            {
+                foreach (var baseType in enumDeclaration.BaseList.Types)
+                {
+                    docBuilder.AppendFormat(SeeAlsoTemplate, baseType.ToString());
+                }
+            }
+
+            return docBuilder.ToString();
+        }
+
+        /// <inheritdoc />
+        public string GenerateStructDocs(StructDeclarationSyntax structDeclaration)
+        {
+            var identifierList = _identifierHelper.ParseIdentifier(structDeclaration.Identifier.Value.ToString());
+            var pluralizer = new Pluralizer();
+            identifierList[0] = identifierList[0][0].ToString().ToUpper() + identifierList[0].Substring(1);
+
+            var docBuilder = new StringBuilder();
+            docBuilder.AppendFormat(SummaryTemplate, string.Join(" ", identifierList));
+            if (structDeclaration.BaseList?.Types.Count > 0)
+            {
+                foreach (var baseType in structDeclaration.BaseList.Types)
+                {
+                    docBuilder.AppendFormat(SeeAlsoTemplate, baseType.ToString());
+                }
+            }
+
+            GenerateTypeParams(structDeclaration.TypeParameterList, docBuilder);
 
             return docBuilder.ToString();
         }

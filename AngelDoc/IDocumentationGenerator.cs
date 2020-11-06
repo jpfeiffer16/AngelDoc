@@ -39,5 +39,17 @@ namespace AngelDoc
         /// </summary>
         /// <param name="propertyDeclaration">The property declaration.</param>
         string GenerateFieldDocs(FieldDeclarationSyntax propertyDeclaration);
+
+        /// <summary>
+        /// Generates enum docs.
+        /// </summary>
+        /// <param name="enumDeclaration">The enum declaration.</param>
+        string GenerateEnumDocs(EnumDeclarationSyntax enumDeclaration);
+
+        /// <summary>
+        /// Generates struct docs.
+        /// </summary>
+        /// <param name="structDeclaration">The struct declaration.</param>
+        string GenerateStructDocs(StructDeclarationSyntax structDeclaration);
     }
 }
