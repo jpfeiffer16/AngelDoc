@@ -32,7 +32,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 @"/// <summary>
 /// Test.
 /// </summary>
-/// <seealso cref=""short"">"));
+/// <seealso cref=""short"" />"));
         }
     }
 }
