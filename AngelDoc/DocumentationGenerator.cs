@@ -47,7 +47,7 @@ namespace AngelDoc
             {
                 foreach (var baseType in classDeclaration.BaseList.Types)
                 {
-                    docBuilder.AppendFormat(SeeAlsoTemplate, baseType.ToString());
+                    docBuilder.AppendFormat(SeeAlsoTemplate, FormatSeeAlsoTypeName(baseType.ToString()));
                 }
             }
 
@@ -70,7 +70,7 @@ namespace AngelDoc
             {
                 foreach (var baseType in interfaceDeclaration.BaseList.Types)
                 {
-                    docBuilder.AppendFormat(SeeAlsoTemplate, baseType.ToString());
+                    docBuilder.AppendFormat(SeeAlsoTemplate, FormatSeeAlsoTypeName(baseType.ToString()));
                 }
             }
 
@@ -185,7 +185,7 @@ namespace AngelDoc
             {
                 foreach (var baseType in enumDeclaration.BaseList.Types)
                 {
-                    docBuilder.AppendFormat(SeeAlsoTemplate, baseType.ToString());
+                    docBuilder.AppendFormat(SeeAlsoTemplate, FormatSeeAlsoTypeName(baseType.ToString()));
                 }
             }
 
@@ -205,7 +205,7 @@ namespace AngelDoc
             {
                 foreach (var baseType in structDeclaration.BaseList.Types)
                 {
-                    docBuilder.AppendFormat(SeeAlsoTemplate, baseType.ToString());
+                    docBuilder.AppendFormat(SeeAlsoTemplate, FormatSeeAlsoTypeName(baseType.ToString()));
                 }
             }
 
@@ -235,6 +235,11 @@ namespace AngelDoc
                     docBuilder.AppendFormat(TypeParamTemplate, typeParam.Identifier.ToString(), description);
                 }
             }
+        }
+        
+        private string FormatSeeAlsoTypeName(string typeName)
+        {
+            return typeName.Replace("<", "{").Replace(">", "}");
         }
 
         #endregion
