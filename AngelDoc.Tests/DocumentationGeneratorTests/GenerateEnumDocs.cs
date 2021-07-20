@@ -17,7 +17,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
             var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
             var enumDef = TestHelpers.GetSyntaxSymbol<EnumDeclarationSyntax>(
-@"enum Test : short
+@"enum Test : AnotherEnum<string>
 {
     ONE = 1
 }");
@@ -32,7 +32,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 @"/// <summary>
 /// Test.
 /// </summary>
-/// <seealso cref=""short"" />"));
+/// <seealso cref=""AnotherEnum{string}"" />"));
         }
     }
 }

@@ -18,7 +18,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
             var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
             var classDef = TestHelpers.GetSyntaxSymbol<ClassDeclarationSyntax>(
-@"class Test<T> : ITest
+@"class Test<T> : ITest<string>
 {
 }");
 
@@ -32,7 +32,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 @"/// <summary>
 /// Test.
 /// </summary>
-/// <seealso cref=""ITest"" />
+/// <seealso cref=""ITest{string}"" />
 /// <typeparam name=""T""></typeparam>"));
         }
     }

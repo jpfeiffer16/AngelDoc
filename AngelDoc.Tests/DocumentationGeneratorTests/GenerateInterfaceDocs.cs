@@ -19,7 +19,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
             var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
             var interfaceDef = TestHelpers.GetSyntaxSymbol<InterfaceDeclarationSyntax>(
-@"interface ITest<T> : IBase
+@"interface ITest<T> : IBase<string>
 {
 }");
 
@@ -33,7 +33,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 @"/// <summary>
 /// Test.
 /// </summary>
-/// <seealso cref=""IBase"" />
+/// <seealso cref=""IBase{string}"" />
 /// <typeparam name=""T""></typeparam>"));
         }
     }

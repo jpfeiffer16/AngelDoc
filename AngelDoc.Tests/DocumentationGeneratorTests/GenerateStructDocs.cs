@@ -16,7 +16,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
             identifierHelper.ParseIdentifier("Test").Returns(new List<string> { "test" });
             var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
-            var ctorDef = TestHelpers.GetSyntaxSymbol<StructDeclarationSyntax>("struct Test : IStructBase { }");
+            var ctorDef = TestHelpers.GetSyntaxSymbol<StructDeclarationSyntax>("struct Test : IStructBase<string> { }");
 
             _result = documentationGenerator.GenerateStructDocs(ctorDef);
         }
@@ -28,7 +28,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 @"/// <summary>
 /// Test.
 /// </summary>
-/// <seealso cref=""IStructBase"" />"));
+/// <seealso cref=""IStructBase{string}"" />"));
         }
     }
 }
