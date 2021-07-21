@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Pluralize.NET;
 
@@ -25,6 +28,8 @@ namespace AngelDoc
 /// <seealso cref=""{0}"" />";
         private const string TypeParamTemplate = @"
 /// <typeparam name=""{0}"">{1}</typeparam>";
+        private const string ExceptionTemplate = @"
+/// <exception cref=""{0}"">{0} error.</exception>";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentionGenerator"/> class.
@@ -113,6 +118,7 @@ namespace AngelDoc
             }
 
             GenerateTypeParams(methodDeclaration.TypeParameterList, docBuilder);
+            GenerateExceptions(methodDeclaration, docBuilder);
 
             return docBuilder.ToString();
         }
@@ -235,6 +241,43 @@ namespace AngelDoc
                     docBuilder.AppendFormat(TypeParamTemplate, typeParam.Identifier.ToString(), description);
                 }
             }
+        }
+
+        private void GenerateExceptions(MethodDeclarationSyntax methodDeclaration, StringBuilder docBuilder)
+        {
+            var throwStatements = GetAllThrowStatements(methodDeclaration.Body);
+            foreach (var throwStatment in throwStatements)
+            {
+                var errorNode = throwStatment.ChildNodes().FirstOrDefault();
+                if (errorNode.IsKind(SyntaxKind.ObjectCreationExpression))
+                {
+                    var objectInitializer = errorNode as ObjectCreationExpressionSyntax;
+                    docBuilder.AppendFormat(ExceptionTemplate, objectInitializer.Type.ToString());
+                }
+            }
+        }
+
+        private List<ThrowStatementSyntax> GetAllThrowStatements(SyntaxNode node, List<ThrowStatementSyntax> throwStatements = null)
+        {
+            if (throwStatements is null) throwStatements = new List<ThrowStatementSyntax>();
+
+            if (node.IsKind(SyntaxKind.ThrowStatement))
+            {
+                throwStatements.Add(node as ThrowStatementSyntax);
+            }
+            else
+            {
+                var childNodes = node.ChildNodes();
+                if (childNodes.Any())
+                {
+                    foreach (var n in childNodes)
+                    {
+                        GetAllThrowStatements(n, throwStatements);
+                    }
+                }
+            }
+
+            return throwStatements;
         }
         
         private string FormatSeeAlsoTypeName(string typeName)

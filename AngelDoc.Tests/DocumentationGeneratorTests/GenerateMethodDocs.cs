@@ -10,6 +10,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
         private string _pluralResult;
         private string _singularResult;
         private string _disposeResult;
+        private string _exceptionThrowingResult;
 
         [SetUp]
         public void Setup()
@@ -38,6 +39,9 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
             identifierHelper
                 .ParseIdentifier("parameter")
                 .Returns(new List<string> { "parameter" });
+            identifierHelper
+                .ParseIdentifier("ThrowsException")
+                .Returns(new List<string> { "throws exception" });
 
             var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
@@ -65,9 +69,25 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
     {
     }
 }", 2);
+            var exceptionThrowingMethodDef = TestHelpers.GetSyntaxSymbol<MethodDeclarationSyntax>(
+@"public class TestClass
+{
+    public void ThrowsException()
+    {
+        if (1 == 1)
+        {
+            throw new Exception(""test"");
+        }
+        else
+        {
+            throw new HttpException(""http test"");
+        }
+    }
+}", 2);
             _pluralResult = documentationGenerator.GenerateMethodDocs(pluralMethodDef);
             _singularResult = documentationGenerator.GenerateMethodDocs(singularMethodDef);
             _disposeResult = documentationGenerator.GenerateMethodDocs(disposeMethodDef);
+            _exceptionThrowingResult = documentationGenerator.GenerateMethodDocs(exceptionThrowingMethodDef);
         }
 
         [Test]
@@ -100,6 +120,17 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 /// Disposes the <see cref=""TestClass""/> instance and its resources.
 /// </summary>
 /// <param name=""parameter"">The parameter.</param>"));
+        }
+
+        [Test]
+        public void ExceptionThrowingResultIsCorrect()
+        {
+            Assert.That(_exceptionThrowingResult, Is.EqualTo(
+@"/// <summary>
+/// Throws exception.
+/// </summary>
+/// <exception cref=""Exception"">Exception error.</exception>
+/// <exception cref=""HttpException"">HttpException error.</exception>"));
         }
     }
 }
