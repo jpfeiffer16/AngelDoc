@@ -11,6 +11,7 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
         private string _singularResult;
         private string _disposeResult;
         private string _exceptionThrowingResult;
+        private string _interfaceDefResult;
 
         [SetUp]
         public void Setup()
@@ -41,7 +42,10 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
                 .Returns(new List<string> { "parameter" });
             identifierHelper
                 .ParseIdentifier("ThrowsException")
-                .Returns(new List<string> { "throws exception" });
+                .Returns(new List<string> { "throws", "exception" });
+            identifierHelper
+                .ParseIdentifier("Test")
+                .Returns(new List<string> { "test" });
 
             var documentationGenerator = new DocumentionGenerator(identifierHelper);
 
@@ -84,10 +88,16 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
         }
     }
 }", 2);
+            var interfaceMethodDef = TestHelpers.GetSyntaxSymbol<MethodDeclarationSyntax>(
+@"public class ITestInterface
+{
+    public void Test();
+}", 2);
             _pluralResult = documentationGenerator.GenerateMethodDocs(pluralMethodDef);
             _singularResult = documentationGenerator.GenerateMethodDocs(singularMethodDef);
             _disposeResult = documentationGenerator.GenerateMethodDocs(disposeMethodDef);
             _exceptionThrowingResult = documentationGenerator.GenerateMethodDocs(exceptionThrowingMethodDef);
+            _interfaceDefResult = documentationGenerator.GenerateMethodDocs(interfaceMethodDef);
         }
 
         [Test]
@@ -131,6 +141,15 @@ namespace AngelDoc.Tests.DocumentionGeneratorTests
 /// </summary>
 /// <exception cref=""Exception"">Exception error.</exception>
 /// <exception cref=""HttpException"">HttpException error.</exception>"));
+        }
+
+        [Test]
+        public void InterfaceDefResultIsCorrect()
+        {
+            Assert.That(_interfaceDefResult, Is.EqualTo(
+@"/// <summary>
+/// Test.
+/// </summary>"));
         }
     }
 }

@@ -13,7 +13,7 @@
             "args": [
                 "./Test.cs",
                 "gendoccsharp",
-                "35"
+                "9"
             ],
             "cwd": "${workspaceFolder}/AngelDoc",
             "console": "internalConsole",

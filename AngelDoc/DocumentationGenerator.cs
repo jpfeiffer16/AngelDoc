@@ -10,7 +10,7 @@ namespace AngelDoc
 {
     public class DocumentionGenerator : IDocumentationGenerator
     {
-        private IIdentifierHelper _identifierHelper;
+        private readonly IIdentifierHelper _identifierHelper;
 
         private const string SummaryTemplate =
 @"/// <summary>
@@ -19,7 +19,6 @@ namespace AngelDoc
         private const string ParamTemplate = @"
 /// <param name=""{0}"">The {1}.</param>";
         private const string SeeTemplate = "<see cref=\"{0}\"/>";
-        private const string InheritDocTemplate = "/// <inheritdoc/>";
         private const string ValueTemplate = @"
 /// <value>
 /// {0}.
@@ -259,7 +258,9 @@ namespace AngelDoc
 
         private List<ThrowStatementSyntax> GetAllThrowStatements(SyntaxNode node, List<ThrowStatementSyntax> throwStatements = null)
         {
-            if (throwStatements is null) throwStatements = new List<ThrowStatementSyntax>();
+            throwStatements ??= new List<ThrowStatementSyntax>();
+
+            if (node is null) return throwStatements;
 
             if (node.IsKind(SyntaxKind.ThrowStatement))
             {

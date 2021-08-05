@@ -5,24 +5,30 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AngelDoc
 {
+    /// <inheritdoc />
     public class XmlDocCreator : IXmlDocCreator
     {
         private IDocumentationGenerator _documentationGenerator;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XmlDocCreator"/> class.
+        /// </summary>
+        /// <param name="documentationGenerator">The documentation generator.</param>
         public XmlDocCreator(IDocumentationGenerator documentationGenerator)
         {
             _documentationGenerator = documentationGenerator
                 ?? throw new ArgumentNullException(nameof(documentationGenerator));
         }
 
+        /// <inheritdoc />
         public string CreateDocLines(int lineNumber, string code)
         {
             var tree = CSharpSyntaxTree.ParseText(code);
             var root = tree.GetCompilationUnitRoot();
             var lineSpan = tree.GetText().Lines[lineNumber - 1].Span;
             var def = root.DescendantNodes()
-                .Where(n =>
-                    n.FullSpan.Contains(lineSpan)).LastOrDefault();
+                .LastOrDefault(n =>
+                    n.FullSpan.Contains(lineSpan));
 
             var outString = string.Empty;
 
