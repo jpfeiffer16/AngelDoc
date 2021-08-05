@@ -3,8 +3,13 @@ using System.Linq;
 
 namespace AngelDoc
 {
+    /// <summary>
+    /// Identifier helper.
+    /// </summary>
+    /// <seealso cref="IIdentifierHelper" />
     public class IdentifierHelper : IIdentifierHelper
     {
+        /// <inheritdoc />
         public List<string> ParseIdentifier(string identifier)
         {
             var list = new List<string>();

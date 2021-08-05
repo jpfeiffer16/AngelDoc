@@ -2,6 +2,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AngelDoc
 {
+    /// <summary>
+    /// Documentation generator.
+    /// </summary>
     public interface IDocumentationGenerator
     {
         /// <summary>

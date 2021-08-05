@@ -5,7 +5,10 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AngelDoc
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Xml doc creator.
+    /// </summary>
+    /// <seealso cref="IXmlDocCreator" />
     public class XmlDocCreator : IXmlDocCreator
     {
         private IDocumentationGenerator _documentationGenerator;

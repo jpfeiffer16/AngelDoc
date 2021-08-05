@@ -8,6 +8,10 @@ using Pluralize.NET;
 
 namespace AngelDoc
 {
+    /// <summary>
+    /// Documention generator.
+    /// </summary>
+    /// <seealso cref="IDocumentationGenerator" />
     public class DocumentionGenerator : IDocumentationGenerator
     {
         private readonly IIdentifierHelper _identifierHelper;
