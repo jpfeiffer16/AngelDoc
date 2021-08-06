@@ -1,4 +1,3 @@
-
 using System.Linq;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -11,7 +10,7 @@ namespace AngelDoc.Tests
         /// </summary>
         /// <param name="code">The code.</param>
         /// <param name="lineNumber">The line number. This is a 0 based index.</param>
-        public static T GetSyntaxSymbol<T>(string code, int lineNumber = 0) where T : class
+        public static T GetSyntaxSymbol<T>(string code, int lineNumber = 0) where T : CSharpSyntaxNode
         {
             var tree = CSharpSyntaxTree.ParseText(code);
             var root = tree.GetCompilationUnitRoot();
