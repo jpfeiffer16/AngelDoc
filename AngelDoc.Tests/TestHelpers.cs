@@ -17,7 +17,7 @@ namespace AngelDoc.Tests
             var root = tree.GetCompilationUnitRoot();
             var lineSpan = tree.GetText().Lines[lineNumber].Span;
             var result = root.DescendantNodes()
-                .Where(n => n.FullSpan.Contains(lineSpan)).LastOrDefault();
+                .LastOrDefault(n => n.FullSpan.Contains(lineSpan));
             return result as T;
         }
     }

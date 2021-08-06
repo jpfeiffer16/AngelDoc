@@ -11,7 +11,7 @@ namespace AngelDoc
     /// <seealso cref="IXmlDocCreator" />
     public class XmlDocCreator : IXmlDocCreator
     {
-        private IDocumentationGenerator _documentationGenerator;
+        private readonly IDocumentationGenerator _documentationGenerator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="XmlDocCreator"/> class.

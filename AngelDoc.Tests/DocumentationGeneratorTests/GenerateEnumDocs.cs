@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace AngelDoc.Tests.DocumentionGeneratorTests
+namespace AngelDoc.Tests.DocumentationGeneratorTests
 {
     public class GenerateEnumDocs
     {

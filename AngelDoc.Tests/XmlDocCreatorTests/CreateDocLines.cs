@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace AngelDoc.Tests
+namespace AngelDoc.Tests.XmlDocCreatorTests
 {
     public class CreateDocLines
     {

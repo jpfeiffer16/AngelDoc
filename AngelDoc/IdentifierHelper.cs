@@ -20,7 +20,7 @@ namespace AngelDoc
                 {
                     list.Add(string.Empty);
                 }
-                list[list.Count - 1] = list.LastOrDefault() + ch.ToString().ToLower();
+                list[^1] = list.LastOrDefault() + ch.ToString().ToLower();
             }
 
             return list;
