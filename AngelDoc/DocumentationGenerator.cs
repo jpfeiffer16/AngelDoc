@@ -14,8 +14,6 @@ namespace AngelDoc
     /// <seealso cref="IDocumentationGenerator" />
     public class DocumentionGenerator : IDocumentationGenerator
     {
-        private readonly IIdentifierHelper _identifierHelper;
-
         private const string SummaryTemplate =
 @"/// <summary>
 /// {0}.
@@ -34,6 +32,9 @@ namespace AngelDoc
         private const string ExceptionTemplate = @"
 /// <exception cref=""{0}"">{0} error.</exception>";
 
+        private readonly IIdentifierHelper _identifierHelper;
+        private readonly Pluralizer _pluralizer = new Pluralizer();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentionGenerator"/> class.
         /// </summary>
@@ -46,7 +47,6 @@ namespace AngelDoc
         public string GenerateClassDocs(ClassDeclarationSyntax classDeclaration)
         {
             var identifierList = _identifierHelper.ParseIdentifier(classDeclaration.Identifier.Value.ToString());
-            var pluralizer = new Pluralizer();
             identifierList[0] = identifierList[0][0].ToString().ToUpper() + identifierList[0].Substring(1);
 
             var docBuilder = new StringBuilder();
@@ -69,7 +69,6 @@ namespace AngelDoc
         {
             var identifierList = _identifierHelper.ParseIdentifier(interfaceDeclaration.Identifier.Value.ToString());
             if (identifierList.FirstOrDefault() == "i") identifierList = identifierList.Skip(1).ToList();
-            var pluralizer = new Pluralizer();
             identifierList[0] = identifierList[0][0].ToString().ToUpper() + identifierList[0].Substring(1);
 
             var docBuilder = new StringBuilder();
@@ -105,8 +104,7 @@ namespace AngelDoc
                 var identifierList = _identifierHelper.ParseIdentifier(methodName);
                 if (identifierList.Count > 1)
                 {
-                    var pluralizer = new Pluralizer();
-                    identifierList[0] = pluralizer.Pluralize(identifierList[0]);
+                    identifierList[0] = _pluralizer.Pluralize(identifierList[0]);
                 }
                 identifierList[0] = identifierList[0][0].ToString().ToUpper()
                     + identifierList[0].Substring(1);
@@ -185,7 +183,6 @@ namespace AngelDoc
         public string GenerateEnumDocs(EnumDeclarationSyntax enumDeclaration)
         {
             var identifierList = _identifierHelper.ParseIdentifier(enumDeclaration.Identifier.Value.ToString());
-            var pluralizer = new Pluralizer();
             identifierList[0] = identifierList[0][0].ToString().ToUpper() + identifierList[0].Substring(1);
 
             var docBuilder = new StringBuilder();
@@ -205,7 +202,6 @@ namespace AngelDoc
         public string GenerateStructDocs(StructDeclarationSyntax structDeclaration)
         {
             var identifierList = _identifierHelper.ParseIdentifier(structDeclaration.Identifier.Value.ToString());
-            var pluralizer = new Pluralizer();
             identifierList[0] = identifierList[0][0].ToString().ToUpper() + identifierList[0].Substring(1);
 
             var docBuilder = new StringBuilder();
