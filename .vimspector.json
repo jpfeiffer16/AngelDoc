@@ -1,0 +1,30 @@
+{
+  "configurations": {
+    "attach": {
+      "adapter": "netcoredbg",
+      "configuration": {
+        "request": "attach",
+        "processId": "${pid}"
+      }
+    },
+    "debug-test": {
+      "adapter": "netcoredbg",
+      "configuration": {
+        "request": "launch",
+        "program": "exec",
+        "args": [
+          "exec",
+          "--runtimeconfig \"/home/jpfeiffer/Source/AngelDoc/AngelDoc.Tests/bin/Debug/netcoreapp3.1/AngelDoc.Tests.runtimeconfig.json\"",
+          "--depsfile \"/home/jpfeiffer/Source/AngelDoc/AngelDoc.Tests/bin/Debug/netcoreapp3.1/AngelDoc.Tests.deps.json\"",
+          "\"/home/jpfeiffer/.nuget/packages/microsoft.testplatform.testhost/16.5.0/lib/netcoreapp2.1/testhost.dll\"",
+          "--port 37089",
+          "--endpoint 127.0.0.1:037089",
+          "--role client",
+          "--parentprocessid 1310042",
+          "--telemetryoptedin false"
+        ],
+        "stopAtEntry": false
+      }
+    }
+  }
+}
